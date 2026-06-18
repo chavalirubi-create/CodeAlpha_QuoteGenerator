@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lavender Random Quote Generator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    position:relative;
+    font-family:'Cormorant Garamond', serif;
+
+    background:linear-gradient(
+        135deg,
+        #efe7ff 0%,
+        #f8f4ff 50%,
+        #dfcfff 100%
+    );
+}
+
+/* Background Blobs */
+
+body::before{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:rgba(198,167,255,0.25);
+    border-radius:50%;
+    top:-250px;
+    left:-150px;
+    filter:blur(20px);
+}
+
+body::after{
+    content:"";
+    position:absolute;
+    width:650px;
+    height:650px;
+    background:rgba(217,193,255,0.2);
+    border-radius:50%;
+    bottom:-250px;
+    right:-150px;
+    filter:blur(20px);
+}
+
+/* Decorative Lavender Leaves */
+
+.leaf{
+    position:absolute;
+    color:#b896ff;
+    font-size:90px;
+    opacity:0.4;
+}
+
+.leaf1{
+    top:20px;
+    left:30px;
+    transform:rotate(-20deg);
+}
+
+.leaf2{
+    top:20px;
+    right:30px;
+    transform:rotate(20deg);
+}
+
+.leaf3{
+    bottom:20px;
+    left:40px;
+    transform:rotate(15deg);
+}
+
+.leaf4{
+    bottom:20px;
+    right:40px;
+    transform:rotate(-15deg);
+}
+
+/* Sparkles */
+
+.sparkle{
+    position:absolute;
+    color:white;
+    animation:float 5s infinite ease-in-out;
+}
+
+.s1{
+    top:12%;
+    left:15%;
+    font-size:30px;
+}
+
+.s2{
+    top:18%;
+    right:18%;
+    font-size:25px;
+}
+
+.s3{
+    bottom:18%;
+    left:18%;
+    font-size:35px;
+}
+
+.s4{
+    bottom:15%;
+    right:15%;
+    font-size:28px;
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-15px);
+    }
+}
+
+/* Main Card */
+
+.container{
+    width:75%;
+    max-width:550px;
+    background:rgba(255,255,255,0.75);
+    backdrop-filter:blur(15px);
+    border-radius:30px;
+    padding:25px;
+    text-align:center;
+    z-index:100;
+
+    box-shadow:
+    0 20px 50px rgba(122,84,255,0.15);
+}
+
+.quote-icon{
+    font-size:60px;
+    color:#c5a4ff;
+}
+
+h1{
+    font-family:'Great Vibes', cursive;
+    font-size:3.2rem;
+    color:#7048c8;
+    margin-bottom:15px;
+}
+
+.line{
+    width:180px;
+    height:2px;
+    background:#d9c7ff;
+    margin:15px auto;
+}
+
+.heart{
+    color:#c8a8ff;
+    font-size:24px;
+    margin-bottom:15px;
+}
+
+.quote{
+    font-size:1.6rem;
+    color:#3f3558;
+    line-height:1.6;
+    margin:20px 0;
+    min-height:80px;
+}
+
+.author{
+    font-family:'Great Vibes', cursive;
+    font-size:2.2rem;
+    color:#8459e6;
+    margin-bottom:30px;
+}
+
+/* Button */
+
+button{
+    border:none;
+    padding:18px 45px;
+    border-radius:50px;
+    cursor:pointer;
+
+    background:linear-gradient(
+    135deg,
+    #d3b0ff,
+    #8f6bff
+    );
+
+    color:white;
+    font-size:1.1rem;
+    font-weight:bold;
+
+    box-shadow:
+    0 10px 25px rgba(143,107,255,0.35);
+
+    transition:0.4s;
+}
+
+button:hover{
+    transform:translateY(-5px) scale(1.05);
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+h1{
+    font-size:2rem;
+}
+
+.quote{
+    font-size:1.5rem;
+}
+
+.author{
+    font-size:1.8rem;
+}
+
+.container{
+    padding:35px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Decorative Leaves -->
+<div class="leaf leaf1">🪻</div>
+<div class="leaf leaf2">🪻</div>
+<div class="leaf leaf3">🪻</div>
+<div class="leaf leaf4">🪻</div>
+
+<!-- Sparkles -->
+<div class="sparkle s1">✦</div>
+<div class="sparkle s2">✧</div>
+<div class="sparkle s3">✦</div>
+<div class="sparkle s4">✧</div>
+
+<!-- Main Card -->
+
+<div class="container">
+
+    <div class="quote-icon">❝</div>
+
+    <h1>✒️Random Quote ✒️ Generator</h1>
+
+    <div class="line"></div>
+
+    <div class="heart">♥</div>
+
+    <div id="quote" class="quote"></div>
+
+    <div class="line"></div>
+
+    <div id="author" class="author"></div>
+
+    <button onclick="generateQuote()">✨ New Quote</button>
+
+</div>
+
+<script>
+
+const quotes = [
+
+{
+quote:"The best way to predict your future is to create it.",
+author:"Abraham Lincoln"
+},
+
+{
+quote:"Believe you can and you're halfway there.",
+author:"Theodore Roosevelt"
+},
+
+{
+quote:"Dream big and dare to fail.",
+author:"Norman Vaughan"
+},
+
+{
+quote:"Success is the sum of small efforts repeated day in and day out.",
+author:"Robert Collier"
+},
+
+{
+quote:"Your future is created by what you do today, not tomorrow.",
+author:"Robert Kiyosaki"
+},
+
+{
+quote:"Stay close to anything that makes you glad you are alive.",
+author:"Hafez"
+},
+
+{
+quote:"Hard work beats talent when talent doesn't work hard.",
+author:"Tim Notke"
+},
+
+{
+quote:"Do something today that your future self will thank you for.",
+author:"Sean Patrick Flanery"
+},
+
+{
+quote:"Stay hungry, stay foolish.",
+author:"Steve Jobs"
+},
+
+{
+quote:"The only limit to our realization of tomorrow is our doubts of today.",
+author:"Franklin D. Roosevelt"
+}
+
+];
+
+function generateQuote(){
+
+let randomIndex = Math.floor(Math.random() * quotes.length);
+
+document.getElementById("quote").innerHTML =
+`"${quotes[randomIndex].quote}"`;
+
+document.getElementById("author").innerHTML =
+`— ${quotes[randomIndex].author}`;
+
+}
+
+window.onload = generateQuote;
+
+</script>
+
+</body>
+</html>
